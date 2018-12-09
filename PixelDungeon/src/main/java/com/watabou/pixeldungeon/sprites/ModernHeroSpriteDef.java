@@ -26,6 +26,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import androidx.annotation.NonNull;
+
 /**
  * Created by mike on 16.04.2016.
  */
@@ -130,7 +132,6 @@ public class ModernHeroSpriteDef extends HeroSpriteDef {
 		String hairDescriptor = HERO_EMPTY_PNG;
 		String helmetDescriptor = HERO_EMPTY_PNG;
 
-
 		if(classDescriptor.equals("MAGE_WARLOCK")
 				|| classDescriptor.equals("MAGE_BATTLEMAGE")
 				|| classDescriptor.equals("WARRIOR_BERSERKER")
@@ -174,8 +175,8 @@ public class ModernHeroSpriteDef extends HeroSpriteDef {
 			weaponAnimationClassRight = hero.belongings.weapon.getAnimationClass();
 		}
 
-		layersDesc.put(LAYER_LEFT_HAND,  "hero_modern/body/hands/" +bodyType+"_"+weaponAnimationClassLeft+"_left.png");
-		layersDesc.put(LAYER_RIGHT_HAND, "hero_modern/body/hands/" +bodyType+"_"+weaponAnimationClassRight+"_right.png");
+		layersDesc.put(LAYER_LEFT_HAND, "hero_modern/body/hands/" + bodyType + "_" + weaponAnimationClassLeft + "_left.png");
+		layersDesc.put(LAYER_RIGHT_HAND, "hero_modern/body/hands/" + bodyType + "_" + weaponAnimationClassRight + "_right.png");
 
 		layersDesc.put(LAYER_ACCESSORY, accessoryDescriptor);
 
@@ -244,6 +245,14 @@ public class ModernHeroSpriteDef extends HeroSpriteDef {
 				zap    = weapon_anims.get(KindOfWeapon.BASIC_ATTACK);
 			}
 		}
+
+		Accessory accessory = Accessory.equipped();
+
+		if(accessory != null && accessory.isCoveringItems()) { // no fancy attacks in costumes
+			attack = weapon_anims.get(KindOfWeapon.BASIC_ATTACK);
+			zap    = weapon_anims.get(KindOfWeapon.BASIC_ATTACK);
+		}
+
 		avatar = null;
 	}
 
@@ -405,6 +414,7 @@ public class ModernHeroSpriteDef extends HeroSpriteDef {
 		killAndErase();
 	}
 
+	@NonNull
 	public String getDeathEffect() {
 		return deathEffectDesc;
 	}
